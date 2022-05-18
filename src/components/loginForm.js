@@ -54,7 +54,7 @@ function LoginForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter email"
-                // required
+                    required
                 />
                 <input
                     type="password"
@@ -62,13 +62,13 @@ function LoginForm() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter password"
-                // required
+                    required
                 />
 
                 <button
                     type="submit"
                     className="btn btn-block btn-primary form-control width100 p-2 getting-started"
-                    // disabled={!name || !email || !password || loading}
+                    disabled={!email || !password || loading}
                     style={{
                         backgroundColor: "#0066FF",
                         borderColor: "#2E47FF",
