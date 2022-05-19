@@ -12,8 +12,10 @@ function AboutMeForm() {
     const { user, setUser } = useContext(UserContext)
     let navigate = useNavigate()
     useEffect(() => {
-        fetchUser();
         if (user === null) navigate('/')
+        fetchUser();
+        console.log(user)
+
     }, []);
     const getCSRFToken = async () => {
         const response = await axios.get(`${API}/csrf-token`);
@@ -21,6 +23,7 @@ function AboutMeForm() {
     };
     const fetchUser = async () => {
         try {
+            if (user === null) navigate('/')
             const token = JSON.parse(localStorage.getItem('token'))
             const { data } = await axios.get(`${API}/profile`, {
                 headers: {
@@ -33,13 +36,14 @@ function AboutMeForm() {
         } catch (error) {
             console.log(error);
             setUser(null)
-            navigate("/login");
+            navigate("/");
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            if (user === null) navigate('/')
             setLoading(true);
             const token = JSON.parse(localStorage.getItem('token'))
             const { data } = await axios.post(`${API}/about-me`, {
@@ -65,20 +69,22 @@ function AboutMeForm() {
             var s = error.message || 'Something went wrong...Try again...';
             toast.error(` ${s}`);
             setLoading(false);
+            navigate('/')
         }
     }
     return (
+
         <div className='m-3' style={{ minHeight: '80vh' }}>
             <div className='col-md-6 offset-md-3 p-2 alert alert-success' style={{ border: '1px solid green', fontWeight: '700' }}>
 
                 <div>
                     Welcome
-                    < br ></br>
-                    {user.name}
+                    <br ></br>
+                    {user?.name}
                     <br></br>
-                    Email: {user.email}
+                    Email: {user?.email}
                     <br></br>
-                    About Me: {user.aboutMe}
+                    About Me: {user?.aboutMe}
                 </div>
             </div>
             <h1 className="text-center square mb-3 mt-3">About Me</h1>
@@ -90,7 +96,7 @@ function AboutMeForm() {
                     className="form-control mb-4 p-4"
                     value={aboutMe}
                     onChange={(e) => setAboutMe(e.target.value)}
-                    placeholder={user.aboutMe ? user.aboutMe : 'Enter about me'}
+                    placeholder={user?.aboutMe ? user.aboutMe : 'Enter about me'}
                     required
                 />
 

@@ -14,10 +14,9 @@ function Navbar() {
             window.localStorage.removeItem("token")
             setUser(null)
 
-            const { data } = await axios.get(`${API}/logout`);
-            toast.success(data.message);
+            toast.success('Logout successful');
 
-            navigate("/login");
+            navigate('/');
         }
         catch (error) {
             console.log(error)
