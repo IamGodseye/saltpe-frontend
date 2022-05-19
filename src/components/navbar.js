@@ -11,6 +11,7 @@ function Navbar() {
     const handleLogout = async (e) => {
         try {
             window.localStorage.removeItem("user");
+            window.localStorage.removeItem("token")
             setUser(null)
 
             const { data } = await axios.get(`${API}/logout`);
@@ -28,7 +29,7 @@ function Navbar() {
         <div >
             <nav class="navbar navbar-expand-lg navbar-dark" style={{ background: '#333232' }}>
                 <div class="container-fluid p-2">
-                    <a class="navbar-brand d-flex justify-content-center align-items-center" href="/home">
+                    <a class="navbar-brand d-flex justify-content-center align-items-center" href="/">
                         {/* <img src="salt-logo.png" alt="" style={{ height: '10vh' }} class="d-inline-block align-text-top p-2" /> */}
                         <h3 style={{ color: 'white' }}> 🧂 - OP</h3>
                     </a>
@@ -40,7 +41,10 @@ function Navbar() {
                         <div class="me-auto navbar-nav"></div>
                         <div class="navbar-nav">
                             {user ? (
-                                < button class="nav-link btn btn-primary" onClick={handleLogout} style={{ color: 'white' }}>Logout</button>
+                                <>
+                                    <a class="nav-link" href="/about-me" style={{ color: 'white' }}>About Me</a>
+                                    < button class="nav-link btn btn-primary" onClick={handleLogout} style={{ color: 'white' }}>Logout</button>
+                                </>
                             ) : (
                                 <>
                                     <a class="nav-link" href="/signup" style={{ color: 'white' }}>Signup</a>

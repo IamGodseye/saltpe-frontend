@@ -12,10 +12,17 @@ function LoginForm() {
     const [loading, setLoading] = useState("");
     const { user, setUser } = useContext(UserContext)
     let navigate = useNavigate()
+    const getCSRFToken = async () => {
+        const response = await axios.get(`${API}/csrf-token`);
+        axios.defaults.headers['X-CSRF-Token'] = response.data.csrfToken;
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+
             setLoading(true);
+            const token = JSON.parse(localStorage.getItem('token'))
+            console.log(`${API}/login`)
             const { data } = await axios.post(`${API}/login`, {
                 email,
                 password,
@@ -31,8 +38,10 @@ function LoginForm() {
             setEmail("");
             setPassword("");
             window.localStorage.setItem("user", JSON.stringify(data.user))
+            window.localStorage.setItem("token", JSON.stringify(data.token))
             setUser(data.user)
-            navigate('/home');
+            navigate('/');
+            getCSRFToken();
         }
         catch (error) {
             console.log(error)
@@ -42,7 +51,7 @@ function LoginForm() {
         }
     }
     return (
-        <div className="m-3" style={{ height: '80vh' }}>
+        <div className="m-3" style={{ minHeight: '80vh' }}>
             {/* {user === null ? 'NULL' : 'else'} */}
             <h1 className="text-center square mb-3 mt-3">Login</h1>
             <form

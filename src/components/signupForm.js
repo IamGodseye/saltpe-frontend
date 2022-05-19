@@ -33,7 +33,7 @@ function SignupForm() {
             setEmail("");
             setPassword("");
 
-            navigate('/home');
+            navigate('/');
         }
         catch (error) {
             console.log(error)
@@ -43,7 +43,7 @@ function SignupForm() {
         }
     }
     return (
-        <div className="m-3" style={{ height: '80vh' }}>
+        <div className="m-3" style={{ minHeight: '80vh' }}>
             {/* {user === null ? 'NULL' : 'else'} */}
             <h1 className="text-center square mb-3 mt-3">Signup</h1>
             <form
